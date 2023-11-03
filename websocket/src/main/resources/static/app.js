@@ -6,9 +6,12 @@ const stompClient = new StompJs.Client({
 
 // 웹 소켓 연결에 성공했을 때 호출되는 콜백 함수 정의
 stompClient.onConnect = (frame) => {
+    const roomId = document.getElementById('roomId').value
+    console.log(roomId)
+
     setConnected(true);
     console.log('Connected: ' + frame);
-    stompClient.subscribe('/topic/greetings', (greeting) => { // /topic/greetings를 구독하고, 서버가 해당 목적지로 메세지를 보내면 showGreeting() 함수를 호출한다.
+    stompClient.subscribe('/topic/greetings/'+roomId, (greeting) => { // /topic/greetings를 구독하고, 서버가 해당 목적지로 메세지를 보내면 showGreeting() 함수를 호출한다.
         showGreeting(JSON.parse(greeting.body).content); // 메세지를 JSON으로 파싱하고 DOM에 추가한다.
     });
 };
